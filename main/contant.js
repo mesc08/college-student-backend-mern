@@ -9,6 +9,7 @@ const searchAllColleges=()=> {
 	return new Promise((fulfill, reject)=>{
 		collegemodel.find({'country': 'India'})
 		.then((college)=>{
+			college.sort()
 			fulfill(college)
 		})
 		.catch((err)=>{
@@ -21,6 +22,7 @@ const searchAllStudents =()=>{
 	return new Promise((fulfill, reject)=>{
 		studentmodel.find()
 		.then((students)=>{
+			students.sort()
 			fulfill(students)
 		})
 		.catch((err)=>{
@@ -129,6 +131,85 @@ const searchAllStudentswithSameSkills=(skills)=>{
 		})
 	})
 }
+
+const searchforCountofAllCollegesBystate=()=>{
+	return new Promise((fulfill, reject)=>{
+		collegemodel.aggregate([
+				{
+					$group:{
+						_id:"$state",
+						count:{
+							$sum: 1,
+						},
+					},
+				},
+			])
+			.then((data)=>{
+				data.sort()
+				fulfill(data)
+			})
+			.catch((err)=> reject(err))
+	})
+}
+
+const searchforCountofCoursesByColleges=()=>{
+	return new Promise((fulfill, reject)=>{
+		collegemodel.aggregate([
+				{
+					$group: {
+							_id : "$courses",
+							count : {
+							$sum : 1,
+						},
+					},
+				},
+			])
+			.then((data)=>{
+				data.sort()
+				fulfill(data)
+			})
+			.catch((err)=>reject(err))
+	})
+}
+const searchforCountofSkillsByStudents =()=>{
+	return new Promise((fulfill, reject)=>{
+		studentmodel.aggregate([
+				{
+					$group: {
+						_id: "$skills",
+						count : {
+							$sum : 1,
+						},
+					},
+				},
+			])
+			.then((data)=>{
+				data.sort()
+				fulfill(data)
+			})
+			.catch((err)=>reject(err))
+	})
+}
+
+const searchforcountofCollegesbySameCity=()=>{
+	return new Promise((fulfill, reject)=>{
+		collegemodel.aggregate([
+			{
+				$group: {
+					_id: '$city',
+					count : {
+						$sum : 1,
+					},
+				},
+			},
+		])
+		.then((data)=>{
+			data.sort()
+			fulfill(data)
+		})
+		.catch((err)=>reject(err))
+	})
+}
 module.exports = {
 	searchAllColleges,
 	searchAllStudents,
@@ -139,4 +220,8 @@ module.exports = {
 	searchAllCollegesByLocation,
 	searchAllCollegesBySameCourses,
 	searchAllStudentswithSameSkills,
+	searchforCountofAllCollegesBystate,
+	searchforCountofCoursesByColleges,
+	searchforCountofSkillsByStudents,
+	searchforcountofCollegesbySameCity,
 }

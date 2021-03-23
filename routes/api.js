@@ -94,4 +94,43 @@ router.get('/students/skills/:skills', async (req, res)=>{
 	}
 })
 
+router.get('/charts/colleges/state', async (req, res)=>{
+	try{
+		let countofocollegesbystate = await main.searchforCountofAllCollegesBystate()
+		res.json(countofocollegesbystate)
+	}
+	catch(err){
+		res.status(500)
+	}
+})
+
+router.get('/charts/colleges/courses', async (req, res)=>{
+	try{
+		let countofcoursesoffered = await main.searchforCountofCoursesByColleges()
+		res.json(countofcoursesoffered)
+	}
+	catch(err){
+		res.status(500)
+	}
+})
+
+router.get('/charts/skills', async (req, res)=>{
+	try{
+		let countofskillsstudents = await main.searchforCountofSkillsByStudents()
+		res.json(countofskillsstudents)
+	}
+	catch(err){
+		res.status(500)
+	}
+})
+
+router.get('/charts/college/city', async (req, res)=>{
+	try{
+		let countofcollegesbycity = await main.searchforcountofCollegesbySameCity()
+		res.json(countofcollegesbycity)
+	}
+	catch(err){
+		res.status(500)
+	}
+})
 module.exports = router;

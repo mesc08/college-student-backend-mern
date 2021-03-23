@@ -35,7 +35,7 @@ const CollegeSchema = mongoose.Schema({
 	},
 	courses: 
 		{
-			type: String,
+			type: [String],
 			required: true,
 		},
 });

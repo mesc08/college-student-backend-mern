@@ -10,7 +10,7 @@ const cors = require('cors')
 
 const app = express();	
 
-dotenv.config({path : './config.env'})
+dotenv.config({path : './.config.env'})
 
 mongoose.connect(process.env.DATABASE_URI, {
 	useNewUrlParser: true, 

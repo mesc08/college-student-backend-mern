@@ -97,7 +97,13 @@ router.get('/students/skills/:skills', async (req, res)=>{
 router.get('/charts/colleges/state', async (req, res)=>{
 	try{
 		let countofocollegesbystate = await main.searchforCountofAllCollegesBystate()
-		res.json(countofocollegesbystate)
+		const dataset = {"datasets": [], "labels": []}
+		for(var i = 0; i < countofocollegesbystate.length; i++){
+			dataset["datasets"].push(countofocollegesbystate[i]["count"])
+			dataset["labels"].push(countofocollegesbystate[i]["_id"])
+		}
+		const data = {"datas":datasets}
+		res.json(data)
 	}
 	catch(err){
 		res.status(500)
@@ -107,27 +113,45 @@ router.get('/charts/colleges/state', async (req, res)=>{
 router.get('/charts/colleges/courses', async (req, res)=>{
 	try{
 		let countofcoursesoffered = await main.searchforCountofCoursesByColleges()
-		res.json(countofcoursesoffered)
+		const dataset = {"datasets": [], "labels": []};
+		for(var i = 0; i < countofcoursesoffered.length; i++){
+			dataset["datasets"].push(countofcoursesoffered[i]["count"])
+			dataset["labels"].push(countofcoursesoffered[i]["_id"])
+		}
+		const data ={"datas":datasets}
+		res.json(data)
 	}
 	catch(err){
 		res.status(500)
 	}
 })
 
-router.get('/charts/skills', async (req, res)=>{
+router.get('/charts/students/skills', async (req, res)=>{
 	try{
 		let countofskillsstudents = await main.searchforCountofSkillsByStudents()
-		res.json(countofskillsstudents)
+		const dataset = {"datasets": [], "labels": []}
+		for(var i = 0; i < countofskillsstudents.length; i++){
+			dataset["datasets"].push(countofskillsstudents[i]["count"])
+			dataset["labels"].push(countofskillsstudents[i]["_id"])
+		}
+		const data ={"datas":datasets}
+		res.json(data)
 	}
 	catch(err){
 		res.status(500)
 	}
 })
 
-router.get('/charts/college/city', async (req, res)=>{
+router.get('/charts/colleges/city', async (req, res)=>{
 	try{
 		let countofcollegesbycity = await main.searchforcountofCollegesbySameCity()
-		res.json(countofcollegesbycity)
+		const dataset = {"datasets": [], "labels": []}
+		for(var i = 0; i < countofcollegesbycity.length; i++){
+			dataset["datasets"].push(countofcollegesbycity[i]["count"])
+			dataset["labels"].push(countofcollegesbycity[i]["_id"])
+		}
+		const data ={"datas":datasets}
+		res.json(data)
 	}
 	catch(err){
 		res.status(500)
